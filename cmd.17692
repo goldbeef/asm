@@ -1,0 +1,197 @@
+byte 
+word 
+double-word 
+quad-word 
+
+cpu
+	registers
+peripheral
+data-bus
+
+machine-instruction
+instruction-pointer
+	esp 
+
+get-instruction 
+execute-instruction
+
+fast-speed cache
+
+logic-gate
+	add 
+	or 
+	xor 
+	del 
+flags-registers 
+
+80386
+IA-32 intel 
+x86-64 amd/intel
+
+operating-system 
+bios
+
+memory-model 
+	real-mode-flat-model 
+	protected-mode-flat-model 
+--------------------------------
+8080
+	cpu-bit  8
+	address-line 16
+	address-range 64k
+8086
+	cpu-bit 16
+	address-line 20
+	address-range 1M
+	----------------------
+	segment 
+		segment-boundary
+		code-segment-registers
+		segment-range
+			64k
+		----------------------
+		segment-address 
+		segment-inner-offset --> 20 address 
+		----------------------
+		segment-registers 
+			CS
+				code-segment 
+			DS
+				data-segment 
+			SS
+				stack-segment 
+			ES
+				extend-segment 
+			FS
+			GS
+		----------------------
+		common-registers
+			16-bits 
+				AX, BX, CX, DX, BP, SI, DI, SP
+			32-bits 
+				EAX, EBX, ECX, EDX, EBP, ESI, EDI, ESP 
+		half-register 
+			8-bits 
+				AL, AH 
+				BL, BH
+				CL, CH 
+				DL, DH 
+		instruction-pointer-register 
+			16-bits 
+				IP 
+			32-bits 
+				EIP
+		----------------------
+		real-mode-flat-model 
+				cs + ip --> instruction-address 
+		protected-mode-flat-model 
+				cs: modified by OS  
+				ip: not allowed read or write 
+		----------------------
+		flag-register 
+			FLAGS 
+			EFLAGS 
+----------------------------------
+assembly-programme-model 
+	real-mode-flat-model 
+		64 k 
+		--------------
+		stack 
+		....
+		no-used memory 
+		....
+		programme-data 
+		programme-code 
+		programme-prefix 
+		--------------- 
+	--------------- 
+	real-mode-segment-model 
+		1 M
+		--------------- 
+		stack-segment 
+		data-segment 
+		code-segment 
+		operating-system 
+		---------------
+	--------------- 
+	protected-mode-flag-model 
+		cpu: 386
+		OS: window nt / linux 
+		common-registers  32-bits 
+		address-space 4GB
+		----------------
+		stack 
+		programme-code 
+		operating-system 
+		----------------
+----------------------------------
+bless: binary-file editor 
+----------------------------------
+byte-order 
+	little-endian
+	big-endian 
+----------------------------------
+assembly-language
+	move ebp, esp; save the stack pointer in ebp 
+	助记符　操作数　注释
+	------------------------------
+	.asm --> .o --> elf-exec 
+
+	assembler 
+	linker 
+	-----------------------------
+	re-locate ability
+		8080
+			programme is loaded in specific address 
+		8086
+			symbol-reference is relative-offset 
+			re-locatable 
+
+-----------------------------
+nasm
+ -f 
+ -g
+ -F 
+
+ nasm -f elf -g -F stabs eatsyscall.asm
+----------------------------------
+ld
+----------------------------------
+gdb
+----------------------------------
+kdbg: front-end of gdb 
+ddd
+insight
+----------------------------------
+kwrite
+kate
+konsole
+----------------------------------
+mov
+add
+xchg
+shr
+div
+----------------------------------
+立即数
+    0ah
+寄存器数
+    al
+    ax
+    eax
+内存数据
+    [eax]
+    [eax + 16]
+    [eax + ebx + 15]
+    [addr]
+
+    mov eax, [EatMsg]
+    mov [EatMsg], eax 
+    mov [EatMsg] byte 'G'
+        WORD
+        DWORD
+----------------------------------
+EFlags
+inc
+dec
+jnz
