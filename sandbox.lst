@@ -1,0 +1,15 @@
+     1                                  section .data 
+     2                                  
+     3                                  section .text 
+     4                                  
+     5                                  global _start 
+     6                                  
+     7                                  _start : 
+     8 00000000 90                      	nop 
+     9                                  	; experiment instruction
+    10                                  	; 
+    11 00000001 B804000000              	mov eax,4
+    12 00000006 B87778797A              	mov eax, 'wxyz'
+    13 0000000B 90                      	nop 
+    14                                  
+    15                                  section .bss

@@ -149,28 +149,42 @@ assembly-language
 
 -----------------------------
 nasm
- -f 
- -g
- -F 
-
- nasm -f elf -g -F stabs eatsyscall.asm
+	 -f 
+		output-file format 
+		
+	 -g
+		cause debug info 
+	 -F 
+	-------------------------------	
+	nasm -f elf -g -F stabs eatsyscall.asm
 ----------------------------------
 ld
+	-o 
+		outfile-name
 ----------------------------------
 gdb
 ----------------------------------
 kdbg: front-end of gdb 
-ddd
-insight
+ddd:
+	IDE 
+insight: 
+	IDE 
 ----------------------------------
 kwrite
 kate
+	IDE
 konsole
 ----------------------------------
-mov
-add
-xchg
-shr
+mov dst, src 
+	<register, const>
+	<register, register>
+	<register, memory>
+	<memory, const>
+	<memory, register>
+
+add dst, src 
+xchg dst, src 
+shr 
 div
 ----------------------------------
 立即数
@@ -180,10 +194,12 @@ div
     ax
     eax
 内存数据
-    [eax]
-    [eax + 16]
-    [eax + ebx + 15]
-    [addr]
+	[effective-address]
+		register  
+		register + const 
+		register1 + register2 + const
+	----------------------------------
+	
 
     mov eax, [EatMsg]
     mov [EatMsg], eax 
