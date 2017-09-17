@@ -197,18 +197,150 @@ div
 	[effective-address]
 		register  
 		register + const 
-		register1 + register2 + const
-	----------------------------------
-	
-
-    mov eax, [EatMsg]
-    mov [EatMsg], eax 
-    mov [EatMsg] byte 'G'
-        WORD
-        DWORD
+		register1 + register2 + const 
 ----------------------------------
-EFlags
-inc
-dec
-jnz
+memory-mov-size 
+	memory --> register 
+		determined by register-size 
+		-----------------------
+		mov eax, [EatMsg]
+	register --> memory 
+		determined by register-size or specific-const-size   
+		-----------------------
+		mov [EatMsg], eax 
+		mov [EatMsg] byte 'G'
+			BYTE
+			WORD
+			DWORD
+----------------------------------
+EFlags-register 
+	OF
+		进位标记
+	DF	
+		字符串指令，内存操作顺序
+	IF
+		中断使能标记
+	SF
+		运算为负数
+	ZF
+		运算为０
+	AF
+		BCD码运算进位
+	PF
+		奇偶标志
+	CF
+		无符号运算进位
+----------------------------------
+inc register 
+dec register 
+----------------------------------
+jnz label
+jmp
+----------------------------------
+signed and unsigned 
+	取决于用户怎么理解
+----------------------------------
+neg register/memory
+	m/r8
+	m/r16
+	m/r32
+----------------------------------
+movsx dst, src 
+	<r16, r/m8>
+	<r32, r/m8>
+	<r32, r/m16>
+----------------------------------
+mul r/m8	
+	al		ax  
+mul r/m16	
+	ax		dx and ax 
+mul r/m32	
+	eax		edx and eax 
+
+CF flag
+----------------------------------
+div r/m8 
+	al ah 
+div r/m16 
+	ax dx 
+div r/m32 
+	eax edx 
+----------------------------------
+assist-mark 
+	r8/16/32
+	m8/16/32
+	i8/16/32
+		const 
+	d8/16/32
+		
+	sr 
+		cs/ds/ss/es/fs/gs
+----------------------------------
+equ 
+	StringLen: equ $-MyString
+	like macro-defines 
+----------------------------------
+push param 
+	r16/32
+	m16/32
+pushf 
+	flags16
+pushfd 
+	eflags32 
+pusha 
+	r16 * 16 
+pushad 
+	r32 * 8
+----------------------------------
+pop param 
+	r16/32
+	m16/32
+popf
+popfd
+popa 
+popha
+----------------------------------
+stack 
+	used for temporary storage 
+	used for call system-call 
+----------------------------------
+.data 
+	init-data 
+	store in elf-exec 
+	-----------------------
+	MyByte db 07h
+	MyWord dw 0ffffh
+	MyDouble dd 0ffffffffh
+
+	MyString: db 'hello', 10 
+	MyString: db "hello", 10 
+	
+	StringLen: equ $-MyString
+----------------------------------
+.bss 
+	uninit-data 
+	not store in elf-exec 
+
+.text 
+	code 
+
+label 
+	label: mov eax, 10
+	jmp label 
+----------------------------------
+GDB command 
+	b _start 
+	nexti/ni 
+	
+	info ingisters 
+	print $eax 
+	
+	display /i $pc  
+
+	set disassembly-flavor intel 
+	show disassembly-flavor 
+	
+	x/20b address 
+
+	disassemble  
 
