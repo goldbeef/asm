@@ -1,15 +1,22 @@
-     1                                  section .data 
+     1                                  SECTION .data 
      2                                  
-     3                                  section .text 
-     4                                  
-     5                                  global _start 
+     3 00000000 456174206174204A6F-     EatMsg: db "Eat at Joe's!'", 10
+     4 00000009 65277321270A       
+     5                                  EatLen: equ $-EatMsg 
      6                                  
-     7                                  _start : 
-     8 00000000 90                      	nop 
-     9                                  	; experiment instruction
-    10                                  	; 
-    11 00000001 B804000000              	mov eax,4
-    12 00000006 B87778797A              	mov eax, 'wxyz'
-    13 0000000B 90                      	nop 
-    14                                  
-    15                                  section .bss
+     7                                  SECTION .bss 
+     8                                  
+     9                                  SECTION .text 
+    10                                  
+    11                                  global _start 
+    12                                  
+    13                                  _start:
+    14 00000000 90                      	nop
+    15 00000001 B804000000              	mov eax, 4
+    16 00000006 BB01000000              	mov ebx, 1
+    17 0000000B B9[00000000]            	mov ecx, EatMsg 
+    18 00000010 BA0F000000              	mov edx, EatLen 
+    19 00000015 CD80                    	int 80H 
+    20 00000017 B801000000              	mov eax, 1 
+    21 0000001C BB00000000              	mov ebx, 0
+    22 00000021 CD80                    	int 80H
