@@ -369,4 +369,23 @@ bit-logic
 			set flag 
 		clc 
 			clear flag 
-
+----------------------------------
+jump 
+	no-condition-jump 
+		jmp <lable>
+	condition-jump 
+		jz 
+		jnz 
+flags 
+	-----------------------
+	CF, ZF 
+	OF, SF, DF
+	-----------------------
+	shift
+		not modify flags 
+	not 
+		not mofidy flags 
+cmp 
+	cmp op1, op2
+	--------------
+	op1 - op2; modify flags, CF, ZF, OF, SF, AF, PF

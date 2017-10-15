@@ -1,0 +1,87 @@
+     1                                  section .bss 
+     2                                  	BUFFLEN equ 16
+     3 00000000 <res 00000010>          	Buff: resb BUFFLEN 
+     4                                  
+     5                                  section .data 
+     6 00000000 203030203030203030-     	HexStr: db " 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00", 10
+     7 00000009 203030203030203030-
+     8 00000012 203030203030203030-
+     9 0000001B 203030203030203030-
+    10 00000024 203030203030203030-
+    11 0000002D 2030300A           
+    12                                  	HexLen: equ $-HexStr 
+    13                                  
+    14 00000031 303132333435363738-     	Digits: db "0123456789ABCDEF"
+    15 0000003A 39414243444546     
+    16                                  
+    17                                  section .text 
+    18                                  
+    19                                  global _start 
+    20                                  
+    21                                  _start:
+    22 00000000 90                      	nop 
+    23                                  
+    24                                  Read:
+    25 00000001 B803000000              	mov eax, 3
+    26 00000006 BB00000000              	mov ebx, 0
+    27 0000000B B9[00000000]            	mov ecx, Buff 
+    28 00000010 BA10000000              	mov edx, BUFFLEN 
+    29 00000015 CD80                    	int 80H
+    30 00000017 89C5                    	mov ebp, eax 
+    31 00000019 83F800                  	cmp eax, 0
+    32 0000001C 7472                    	je Done 
+    33                                  
+    34 0000001E BE[00000000]            	mov esi, Buff 
+    35 00000023 BF[00000000]            	mov edi, HexStr 
+    36 00000028 31C9                    	xor ecx, ecx 
+    37                                  
+    38                                  Scan:
+    39 0000002A 31C0                    	xor eax, eax 
+    40 0000002C 89CA                    	mov edx, ecx 
+    41 0000002E D1E2                    	shl edx, 1
+    42 00000030 01CA                    	add edx, ecx; eax = 3 * eax 
+    43                                  
+    44 00000032 8A040E                  	mov al, byte [esi + ecx]
+    45 00000035 89C3                    	mov ebx, eax 
+    46                                  
+    47                                  	;low half-byte
+    48 00000037 240F                    	and al, 0Fh 
+    49 00000039 8A80[31000000]          	mov al, byte [Digits + eax]
+    50 0000003F 8882[02000000]          	mov byte [HexStr + edx + 2], al 
+    51                                  
+    52                                  	;high half-tyte 
+    53 00000045 C0EB04                  	shr bl, 4
+    54 00000048 8A9B[31000000]          	mov bl, byte [Digits + ebx]
+    55 0000004E 889A[01000000]          	mov byte [HexStr + edx + 1], bl 
+    56                                  
+    57 00000054 41                      	inc ecx 
+    58 00000055 39E9                    	cmp ecx, ebp 
+    59 00000057 76D1                    	jna Scan 
+    60                                  
+    61                                  Modify:
+    62 00000059 83F910                  	cmp ecx, BUFFLEN 
+    63 0000005C 7317                    	jae Write 
+    64                                  	
+    65 0000005E 89CA                    	mov edx, ecx 
+    66 00000060 D1E2                    	shl edx, 1
+    67 00000062 01CA                    	add edx, ecx 
+    68                                  
+    69 00000064 C682[01000000]30        	mov byte [HexStr + edx + 1], 30h 
+    70 0000006B C682[02000000]30        	mov byte [HexStr + edx + 2], 30h 
+    71                                  
+    72 00000072 41                      	inc ecx;
+    73 00000073 EBE4                    	jmp Modify
+    74                                  
+    75                                  Write:
+    76 00000075 B804000000              	mov eax, 4
+    77 0000007A BB01000000              	mov ebx, 1
+    78 0000007F B9[00000000]            	mov ecx, HexStr 
+    79 00000084 BA31000000              	mov edx, HexLen 
+    80 00000089 CD80                    	int 80h
+    81 0000008B E971FFFFFF              	jmp Read 
+    82                                  
+    83                                  Done:
+    84 00000090 B801000000              	mov eax, 1
+    85 00000095 BB00000000              	mov ebx, 0
+    86 0000009A CD80                    	int 80h
+    87                                  
