@@ -376,6 +376,21 @@ jump
 	condition-jump 
 		jz 
 		jnz 
+		--------------------
+		je
+		jne 
+			for both signed and unsigned opt 
+		ja 
+		jae 
+		jb
+		jbe
+			for signed opt 
+
+		jg
+		jge 
+		jl
+		jle
+			for unsigned opt 
 flags 
 	-----------------------
 	CF, ZF 
@@ -389,3 +404,46 @@ cmp
 	cmp op1, op2
 	--------------
 	op1 - op2; modify flags, CF, ZF, OF, SF, AF, PF
+-----------------------------------------
+test 
+	test val, bit-mask
+		only test if bits is 1
+	--------------
+	and val, mask 
+bt 
+	bt val, bit-idex
+		test if bits if 1 or 0;
+		very slow 
+	-----------------
+	jc 
+	jnc 
+-----------------------------------------
+protected-model memory-adress 
+	[Base + (Index * Scale) + Disp]
+		notice: every part is optional
+		-------------------
+		[Base]
+		[Base + Disp] 
+		[Base + Index * Scale + Disp]
+		-------------------
+		Base, Index 
+			r32 
+		Scale 
+			1, 2, 4, 8 
+		Disp 
+			ival 
+-----------------------------------------
+lea 
+	lea r32, [Base + Index * Scale + Disp]
+	--------------------
+	compute and move address 
+-----------------------------------------
+xlat 
+	xlat 
+	--------------------
+	convert 
+		ebx -> table  
+		al -> index 
+	reuslt is in al
+	--------------------
+
