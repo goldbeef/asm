@@ -343,4 +343,30 @@ GDB command
 	x/20b address 
 
 	disassemble  
+----------------------------------
+bit-logic 
+	and	
+		and dst, src 
+	or 
+		or dst, src  
+	not 
+		not dst 
+	xor
+		xor dst, src 
+		xor eax, eax 
+	shift 
+		shl/shr
+			shl/shr R/M, i/cl
+		rol/ror 
+			rol/ror R/M, i/cl 
+		rcl/rcr 
+			rcl/rcr R/M, i/cl
+		-------------------
+	CF 
+		carry-flag 
+		----------
+		stc 
+			set flag 
+		clc 
+			clear flag 
 

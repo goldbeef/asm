@@ -11,7 +11,12 @@ global _start
 
 _start:
 	nop
+	stc 
+	clc
 	mov eax, 4
+	mov ecx, 2
+	shl eax, cl
+	xor eax, eax
 	mov ebx, 1
 	mov ecx, EatMsg 
 	mov edx, EatLen 

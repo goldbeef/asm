@@ -12,11 +12,16 @@
     12                                  
     13                                  _start:
     14 00000000 90                      	nop
-    15 00000001 B804000000              	mov eax, 4
-    16 00000006 BB01000000              	mov ebx, 1
-    17 0000000B B9[00000000]            	mov ecx, EatMsg 
-    18 00000010 BA0F000000              	mov edx, EatLen 
-    19 00000015 CD80                    	int 80H 
-    20 00000017 B801000000              	mov eax, 1 
-    21 0000001C BB00000000              	mov ebx, 0
-    22 00000021 CD80                    	int 80H
+    15 00000001 F9                      	stc 
+    16 00000002 F8                      	clc
+    17 00000003 B804000000              	mov eax, 4
+    18 00000008 B902000000              	mov ecx, 2
+    19 0000000D D3E0                    	shl eax, cl
+    20 0000000F 31C0                    	xor eax, eax
+    21 00000011 BB01000000              	mov ebx, 1
+    22 00000016 B9[00000000]            	mov ecx, EatMsg 
+    23 0000001B BA0F000000              	mov edx, EatLen 
+    24 00000020 CD80                    	int 80H 
+    25 00000022 B801000000              	mov eax, 1 
+    26 00000027 BB00000000              	mov ebx, 0
+    27 0000002C CD80                    	int 80H
